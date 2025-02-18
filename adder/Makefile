@@ -1,3 +1,6 @@
+
+.PRECIOUS: test/%.s
+
 test/%.s: test/%.snek src/main.rs
 	cargo run -- $< test/$*.s
 

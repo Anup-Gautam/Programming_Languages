@@ -1,0 +1,97 @@
+❯ cat test/test1.snek
+(add1 5)
+
+❯ make test/test1.run
+cargo run -- test/test1.snek test/test1.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `target/debug/adder test/test1.snek test/test1.s`
+nasm -f macho64 test/test1.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/test1.run
+
+❯ cat test/test1.s
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 5
+add rax, 1
+  ret
+❯ ./test/add.run
+-72
+❯ ./test/test1.run
+6
+❯ make test/test2.run
+cargo run -- test/test2.snek test/test2.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `target/debug/adder test/test2.snek test/test2.s`
+nasm -f macho64 test/test2.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/test2.run
+❯ cat test/test2.s
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 10
+sub rax, 1
+  ret
+❯ ./test/test2.run
+9
+❯ cat test/test3.snek
+(negate 42)
+❯ make test/test3.run
+cargo run -- test/test3.snek test/test3.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `target/debug/adder test/test3.snek test/test3.s`
+nasm -f macho64 test/test3.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/test3.run
+❯ cat test/test3.s
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  
+                mov rax, 42
+                neg rax
+            
+  ret
+❯ ./test/test3.run
+-42
+❯ cat test/test3.snek
+(negate 42)
+❯ cat test/test4.snek
+(add1 (sub1 5))
+❯ make test/test3.run
+make: `test/test3.run' is up to date.
+❯ make test/test4.run
+cargo run -- test/test4.snek test/test4.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `target/debug/adder test/test4.snek test/test4.s`
+nasm -f macho64 test/test4.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/test4.run
+❯ cat test/test4.s
+
+section .text
+global our_code_starts_here
+our_code_starts_here:
+  mov rax, 5
+sub rax, 1
+add rax, 1
+  ret
+❯ ./test/test4.run
+5
+❯ cat test/test5.snek
+(negate (add1 (sub1 (negate 3))))
+
+❯ make test/test5.run
+cargo run -- test/test5.snek test/test5.s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `target/debug/adder test/test5.snek test/test5.s`
+nasm -f macho64 test/test5.s -o runtime/our_code.o
+ar rcs runtime/libour_code.a runtime/our_code.o
+rustc --target x86_64-apple-darwin -L runtime/ runtime/start.rs -o test/test5.run
+❯ ./test/test5.run
+3

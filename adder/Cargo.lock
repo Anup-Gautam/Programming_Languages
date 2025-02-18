@@ -7,6 +7,7 @@ name = "adder"
 version = "0.1.0"
 dependencies = [
  "cc",
+ "sexp",
 ]
 
 [[package]]
@@ -17,6 +18,12 @@ checksum = "c7777341816418c02e033934a09f20dc0ccaf65a5201ef8a450ae0105a573fda"
 dependencies = [
  "shlex",
 ]
+
+[[package]]
+name = "sexp"
+version = "1.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c8fa7ac9df84000b0238cf497cb2d3056bac2ff2a7d8cf179d2803b4b58571f"
 
 [[package]]
 name = "shlex"
